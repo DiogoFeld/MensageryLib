@@ -1,4 +1,6 @@
-﻿using MensageryLib.Services;
+﻿using Api.Controllers.Models;
+using Api.Controllers.Models.Request;
+using MensageryLib.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -11,21 +13,13 @@ namespace Api.Controllers
 
         private readonly MensageryImp mensagery;
 
-        public MensageryController(MensageryImp mensagery)
+        public MensageryController()
         {
-            mensagery = new Mensagery("localhost", "guest", "guest", 5672);
-        }
-
-        [HttpPost("ConnectMensagery")]
-        public bool Connect()
-        {
-            bool result = false;
-
-            return false;
+            //                this.mensagery = new Mensagery("localhost", "guest", "guest", 5672);
         }
 
         [HttpPost("CreateExchange")]
-        public bool CreateExchange()
+        public bool CreateExchange(string exchangeName)
         {
             bool result = false;
 
@@ -33,7 +27,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("CreateQueue")]
-        public bool CreateQueue()
+        public bool CreateQueue(string queuName)
         {
             bool result = false;
 
@@ -41,7 +35,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("BindQueue")]
-        public bool BindQueue()
+        public bool BindQueue(BindQueuRequest request)
         {
             bool result = false;
 
@@ -49,7 +43,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("PublishMensagery")]
-        public bool MensageryPublish()
+        public bool MensageryPublish(SendMessageRequest<Deposito> request)
         {
             bool result = false;
 
@@ -58,15 +52,12 @@ namespace Api.Controllers
 
 
         [HttpGet("ConsumeMensagery")]
-        public bool MensageryConsume()
+        public bool MensageryConsume(string queueName)
         {
             bool result = false;
 
             return false;
         }
-
-
-
 
 
 
