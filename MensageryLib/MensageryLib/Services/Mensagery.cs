@@ -61,20 +61,20 @@ namespace MensageryLib.Services
 
         public void CreateExchange(string exchangeName)
         {
-            _channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, durable: true, autoDelete: false,arguments: null);
+            _channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, durable: true, autoDelete: false, arguments: null);
         }
 
         public void CreateQueue(string queueName)
         {
-            _channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false,arguments: null);
+            _channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
         }
 
         public void BindQueue(string exchange, string queue, string routKey)
         {
-            _channel.QueueBind(queue,exchange,routKey);
+            _channel.QueueBind(queue, exchange, routKey);
         }
 
-        public async Task SendMessage<T>(T message, string exchange,string routKey)
+        public async Task SendMessage<T>(T message, string exchange, string routKey)
         {
             try
             {
@@ -87,9 +87,23 @@ namespace MensageryLib.Services
                 });
 
             }
-            catch (Exception ex){ }
+            catch (Exception ex) { }
         }
 
-
+        public async Task SendBasicMessage<T>(T message, string queueName)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _channel.QueueDeclare(queue: queueName, false, false, false, arguments: null);
+                    var jsonString = JsonSerializer.Serialize(message);
+                    var body = Encoding.UTF8.GetBytes(jsonString);
+                    _channel.BasicPublish(
+                        exchange: "", routingKey: queueName, basicProperties: null, body: body);
+                });
+            }
+            catch (Exception ex) { }
+        }
     }
 }

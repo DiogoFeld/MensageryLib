@@ -13,5 +13,8 @@ namespace MensageryLib.Services
         public void CreateQueue(string queueName);
         public void BindQueue(string exchange, string queue, string routKey);
         public Task SendMessage<T>(T message, string exchange, string routKey);
+        public Task SendBasicMessage<T>(T message, string queueName);
+
+
     }
 }
