@@ -11,11 +11,11 @@ namespace Api.Controllers
     public class MensageryController : ControllerBase
     {
 
-        private readonly MensageryImp mensagery;
+        private readonly MensageryImp _mensagery;
 
         public MensageryController()
         {
-            //                this.mensagery = new Mensagery("localhost", "guest", "guest", 5672);
+            this._mensagery = new Mensagery("localhost", "guest", "guest", 5672);
         }
 
         [HttpPost("CreateExchange")]
@@ -23,6 +23,7 @@ namespace Api.Controllers
         {
             bool result = false;
 
+            _mensagery.CreateExchange(exchangeName);
             return false;
         }
 
@@ -31,6 +32,8 @@ namespace Api.Controllers
         {
             bool result = false;
 
+            _mensagery.CreateQueue(queuName);
+
             return false;
         }
 
@@ -38,7 +41,7 @@ namespace Api.Controllers
         public bool BindQueue(BindQueuRequest request)
         {
             bool result = false;
-
+            _mensagery.BindQueue(request.exchange, request.queue, request.routKey);
             return false;
         }
 
@@ -46,7 +49,7 @@ namespace Api.Controllers
         public bool MensageryPublish(SendMessageRequest<Deposito> request)
         {
             bool result = false;
-
+            _mensagery.SendMessage(request.message, request.exchange, request.routKey);
             return false;
         }
 
@@ -56,10 +59,10 @@ namespace Api.Controllers
         {
             bool result = false;
 
+            _mensagery.ConsumeQueu<Deposito>(queueName);
+
             return false;
         }
-
-
 
     }
 }

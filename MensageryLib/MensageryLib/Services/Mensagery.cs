@@ -71,7 +71,7 @@ namespace MensageryLib.Services
 
         public void BindQueue(string exchange, string queue, string routKey)
         {
-            _channel.QueueBind(exchange, queue, routKey);
+            _channel.QueueBind(queue,exchange,routKey);
         }
 
         public async Task SendMessage<T>(T message, string exchange,string routKey)
