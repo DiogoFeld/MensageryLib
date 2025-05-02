@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MensageryLib.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -7,8 +8,40 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class MensageryController : ControllerBase
     {
+
+        private readonly MensageryImp mensagery;
+
+        public MensageryController(MensageryImp mensagery)
+        {
+            mensagery = new Mensagery("localhost", "guest", "guest", 5672);
+        }
+
         [HttpPost("ConnectMensagery")]
         public bool Connect()
+        {
+            bool result = false;
+
+            return false;
+        }
+
+        [HttpPost("CreateExchange")]
+        public bool CreateExchange()
+        {
+            bool result = false;
+
+            return false;
+        }
+
+        [HttpPost("CreateQueue")]
+        public bool CreateQueue()
+        {
+            bool result = false;
+
+            return false;
+        }
+
+        [HttpPost("BindQueue")]
+        public bool BindQueue()
         {
             bool result = false;
 
@@ -29,11 +62,13 @@ namespace Api.Controllers
         {
             bool result = false;
 
-
-
-
-
             return false;
         }
+
+
+
+
+
+
     }
 }

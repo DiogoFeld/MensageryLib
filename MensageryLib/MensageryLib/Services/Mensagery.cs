@@ -6,24 +6,24 @@ using System.Text.Json;
 
 namespace MensageryLib.Services
 {
-    public class Mensagery<T>
+    public class Mensagery : MensageryImp
     {
         private IConnection _connection;
         private IModel _channel;
 
-        public Mensagery(string clientName, string userName, string password)
+        public Mensagery(string host, string userName, string password, int port)
         {
-            _channel = CreateConnection(clientName, userName, password);
+            _channel = CreateConnection(host, userName, password, port);
         }
 
-        private IModel? CreateConnection(string clientName, string userName, string password)
+        private IModel? CreateConnection(string host, string userName, string password, int port)
         {
             var factory = new ConnectionFactory
             {
-                HostName = clientName,
+                HostName = host,
                 UserName = userName,
                 Password = password,
-                Port = 5672
+                Port = port
             };
 
             _connection = factory.CreateConnection();
@@ -32,7 +32,7 @@ namespace MensageryLib.Services
             return _channel;
         }
 
-        public void ConsumeQueu(string queue)
+        public void ConsumeQueu<T>(string queue)
         {
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (model, ea) =>
@@ -59,9 +59,36 @@ namespace MensageryLib.Services
                                  consumer: consumer);
         }
 
+        public void CreateExchange(string exchangeName)
+        {
+            _channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, durable: true, autoDelete: false,arguments: null);
+        }
 
+        public void CreateQueue(string queueName)
+        {
+            _channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false,arguments: null);
+        }
 
+        public void BindQueue(string exchange, string queue, string routKey)
+        {
+            _channel.QueueBind(exchange, queue, routKey);
+        }
 
+        public async Task SendMessage<T>(T message, string exchange,string routKey)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var jsonString = JsonSerializer.Serialize(message);
+                    var body = Encoding.UTF8.GetBytes(jsonString);
+                    _channel.BasicPublish(exchange,
+                        routKey, null, body);
+                });
+
+            }
+            catch (Exception ex){ }
+        }
 
 
     }

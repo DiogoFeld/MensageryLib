@@ -8,7 +8,10 @@ namespace MensageryLib.Services
 {
     public interface MensageryImp
     {
-        void ConsumeQueu(string queue);
-
+        public void ConsumeQueu<T>(string queue);
+        public void CreateExchange(string exchangeName);
+        public void CreateQueue(string queueName);
+        public void BindQueue(string exchange, string queue, string routKey);
+        public Task SendMessage<T>(T message, string exchange, string routKey);
     }
 }
