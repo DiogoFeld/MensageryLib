@@ -2,8 +2,8 @@
 {
     public class BindQueuRequest
     {
-        public string exchange { get; set; }
-        public string queue{get;set;}
-        public string routKey { get; set; }
+        public string Exchange { get; set; }
+        public string Queue{get;set;}
+        public string RoutKey { get; set; }
     }
 }

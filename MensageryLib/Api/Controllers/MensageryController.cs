@@ -41,7 +41,7 @@ namespace Api.Controllers
         public bool BindQueue(BindQueuRequest request)
         {
             bool result = false;
-            _mensagery.BindQueue(request.exchange, request.queue, request.routKey);
+            _mensagery.BindQueue(request.Exchange, request.Queue, request.RoutKey);
             return false;
         }
 
@@ -49,7 +49,7 @@ namespace Api.Controllers
         public bool MensageryPublish(SendMessageRequest<Deposito> request)
         {
             bool result = false;
-            _mensagery.SendMessage(request.message, request.exchange, request.routKey);
+            _mensagery.SendMessage(request.Message, request.Exchange, request.RoutKey);
             return false;
         }
 
@@ -57,7 +57,7 @@ namespace Api.Controllers
         public bool MensageryPublishBasicMessage(SendMessageSimpleRequest<Deposito> request)
         {
             bool result = false;
-            _mensagery.SendBasicMessage(request.message, request.queue);
+            _mensagery.SendBasicMessage(request.Message, request.Queue);
             return false;
         }        
 

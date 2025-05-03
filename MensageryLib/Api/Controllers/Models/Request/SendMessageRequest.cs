@@ -2,8 +2,8 @@
 {
     public class SendMessageRequest<T>
     {
-        public T message { get; set; }
-        public string exchange { get; set; }
-        public string routKey { get; set; }
+        public T Message { get; set; }
+        public string Exchange { get; set; }
+        public string RoutKey { get; set; }
     }
 }

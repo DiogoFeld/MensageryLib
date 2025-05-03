@@ -2,7 +2,7 @@
 {
     public class SendMessageSimpleRequest<T>
     {
-        public T message { get; set; }
-        public string queue { get; set; }
+        public T Message { get; set; }
+        public string Queue { get; set; }
     }
 }
