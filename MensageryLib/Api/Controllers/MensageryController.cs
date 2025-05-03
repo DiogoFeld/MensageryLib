@@ -53,6 +53,14 @@ namespace Api.Controllers
             return false;
         }
 
+        [HttpPost("MensageryPublishBasicMessage")]
+        public bool MensageryPublishBasicMessage(SendMessageSimpleRequest<Deposito> request)
+        {
+            bool result = false;
+            _mensagery.SendBasicMessage(request.message, request.queue);
+            return false;
+        }        
+
 
         [HttpGet("ConsumeMensagery")]
         public bool MensageryConsume(string queueName)
