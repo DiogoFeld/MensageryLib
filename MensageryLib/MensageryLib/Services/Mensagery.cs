@@ -41,6 +41,8 @@ namespace MensageryLib.Services
 
         public bool ConsumeQueu<T>(string queue)
         {
+            if (_channel == null)
+                return false;
             try
             {
 
@@ -77,6 +79,9 @@ namespace MensageryLib.Services
 
         public bool CreateExchange(string exchangeName)
         {
+            if (_channel == null)
+                return false;
+
             try
             {
                 _channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, durable: true, autoDelete: false, arguments: null);
@@ -91,6 +96,10 @@ namespace MensageryLib.Services
 
         public bool CreateQueue(string queueName)
         {
+            if (_channel == null)
+                return false;
+
+
             var queu = _channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             if (queu == null)
@@ -101,6 +110,9 @@ namespace MensageryLib.Services
 
         public bool BindQueue(string exchange, string queue, string routKey)
         {
+            if (_channel == null)
+                return false;
+
             try
             {
                 _channel.QueueBind(queue, exchange, routKey);
@@ -115,6 +127,9 @@ namespace MensageryLib.Services
 
         public async Task<bool> SendMessage<T>(T message, string exchange, string routKey)
         {
+            if (_channel == null)
+                return false;
+
             try
             {
                 await Task.Run(() =>
@@ -136,6 +151,9 @@ namespace MensageryLib.Services
 
         public async Task<bool> SendBasicMessage<T>(T message, string queueName)
         {
+            if (_channel == null)
+                return false;
+
             try
             {
                 await Task.Run(() =>
