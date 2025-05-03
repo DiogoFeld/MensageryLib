@@ -21,55 +21,39 @@ namespace Api.Controllers
         [HttpPost("CreateExchange")]
         public bool CreateExchange(string exchangeName)
         {
-            bool result = false;
-
-            _mensagery.CreateExchange(exchangeName);
-            return false;
+            return _mensagery.CreateExchange(exchangeName);
         }
 
         [HttpPost("CreateQueue")]
         public bool CreateQueue(string queuName)
         {
-            bool result = false;
-
-            _mensagery.CreateQueue(queuName);
-
-            return false;
+            return _mensagery.CreateQueue(queuName);
         }
 
         [HttpPost("BindQueue")]
         public bool BindQueue(BindQueuRequest request)
         {
-            bool result = false;
-            _mensagery.BindQueue(request.Exchange, request.Queue, request.RoutKey);
-            return false;
+            return  _mensagery.BindQueue(request.Exchange, request.Queue, request.RoutKey);        
         }
 
         [HttpPost("PublishMensagery")]
-        public bool MensageryPublish(SendMessageRequest<Deposito> request)
+        public async Task<bool> MensageryPublish(SendMessageRequest<Deposito> request)
         {
-            bool result = false;
-            _mensagery.SendMessage(request.Message, request.Exchange, request.RoutKey);
-            return false;
+            return await _mensagery.SendMessage(request.Message, request.Exchange, request.RoutKey);
         }
 
         [HttpPost("MensageryPublishBasicMessage")]
-        public bool MensageryPublishBasicMessage(SendMessageSimpleRequest<Deposito> request)
+        public async Task<bool> MensageryPublishBasicMessage(SendMessageSimpleRequest<Deposito> request)
         {
-            bool result = false;
-            _mensagery.SendBasicMessage(request.Message, request.Queue);
-            return false;
+            return await _mensagery.SendBasicMessage(request.Message, request.Queue);
+            
         }        
 
 
         [HttpGet("ConsumeMensagery")]
         public bool MensageryConsume(string queueName)
         {
-            bool result = false;
-
-            _mensagery.ConsumeQueu<Deposito>(queueName);
-
-            return false;
+            return _mensagery.ConsumeQueu<Deposito>(queueName);
         }
 
     }
