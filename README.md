@@ -1,4 +1,4 @@
-<h1 align="center">📚 Senff Library</h1>
+<h1 align="center">📚 Mensagery Library</h1>
 
 ---
 
