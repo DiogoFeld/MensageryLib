@@ -18,63 +18,102 @@ namespace MensageryLib.Services
 
         private IModel? CreateConnection(string host, string userName, string password, int port)
         {
-            var factory = new ConnectionFactory
+            try
             {
-                HostName = host,
-                UserName = userName,
-                Password = password,
-                Port = port
-            };
+                var factory = new ConnectionFactory
+                {
+                    HostName = host,
+                    UserName = userName,
+                    Password = password,
+                    Port = port
+                };
 
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
+                _connection = factory.CreateConnection();
+                _channel = _connection.CreateModel();
 
-            return _channel;
-        }
-
-        public void ConsumeQueu<T>(string queue)
-        {
-            var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (model, ea) =>
+                return _channel;
+            }
+            catch (Exception ex)
             {
-                try
+                return null;
+            }
+        }
+
+        public bool ConsumeQueu<T>(string queue)
+        {
+            try
+            {
+
+                var consumer = new EventingBasicConsumer(_channel);
+                consumer.Received += (model, ea) =>
                 {
-                    var body = ea.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    Console.WriteLine($"message Received: : {message}");
+                    try
+                    {
+                        var body = ea.Body.ToArray();
+                        var message = Encoding.UTF8.GetString(body);
+                        Console.WriteLine($"message Received: : {message}");
 
-                    T objectMessage = JsonSerializer.Deserialize<T>(message);
+                        T objectMessage = JsonSerializer.Deserialize<T>(message);
 
-                    _channel.BasicAck(ea.DeliveryTag, false);
-                }
-                catch (Exception ex)
-                {
-                    _channel.BasicAck(ea.DeliveryTag, false);
-                }
-            };
+                        _channel.BasicAck(ea.DeliveryTag, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        _channel.BasicAck(ea.DeliveryTag, false);
+                    }
+                };
 
-            // Consumir mensagens da fila
-            _channel.BasicConsume(queue: queue,
-                                 autoAck: true,
-                                 consumer: consumer);
+                // Consumir mensagens da fila
+                _channel.BasicConsume(queue: queue,
+                                     autoAck: true,
+                                     consumer: consumer);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void CreateExchange(string exchangeName)
+        public bool CreateExchange(string exchangeName)
         {
-            _channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, durable: true, autoDelete: false, arguments: null);
+            try
+            {
+                _channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, durable: true, autoDelete: false, arguments: null);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void CreateQueue(string queueName)
+        public bool CreateQueue(string queueName)
         {
-            _channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            var queu = _channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+            if (queu == null)
+                return false;
+
+            return true;
         }
 
-        public void BindQueue(string exchange, string queue, string routKey)
+        public bool BindQueue(string exchange, string queue, string routKey)
         {
-            _channel.QueueBind(queue, exchange, routKey);
+            try
+            {
+                _channel.QueueBind(queue, exchange, routKey);
+
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
         }
 
-        public async Task SendMessage<T>(T message, string exchange, string routKey)
+        public async Task<bool> SendMessage<T>(T message, string exchange, string routKey)
         {
             try
             {
@@ -84,13 +123,18 @@ namespace MensageryLib.Services
                     var body = Encoding.UTF8.GetBytes(jsonString);
                     _channel.BasicPublish(exchange,
                         routKey, null, body);
+
                 });
+                return true;
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public async Task SendBasicMessage<T>(T message, string queueName)
+        public async Task<bool> SendBasicMessage<T>(T message, string queueName)
         {
             try
             {
@@ -102,8 +146,15 @@ namespace MensageryLib.Services
                     _channel.BasicPublish(
                         exchange: "", routingKey: queueName, basicProperties: null, body: body);
                 });
+                return true;
+
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
+
+
     }
 }
