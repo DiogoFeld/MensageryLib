@@ -149,6 +149,48 @@ namespace MensageryLib.Services
             }
         }
 
+
+
+        public async Task<bool> SendMessagePersistent<T>(T message, string exchange, string routKey, int numberOfTries)
+        {
+            if (_channel == null)
+                return false;
+
+
+            bool sent = false;
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var jsonString = JsonSerializer.Serialize(message);
+                    var body = Encoding.UTF8.GetBytes(jsonString);
+
+
+                    int currentTries = 0;
+
+                    while (!sent && currentTries < numberOfTries)
+                    {
+
+                        _channel.BasicPublish(exchange,
+                            routKey, null, body);
+
+
+                        sent = _channel.WaitForConfirms(TimeSpan.FromSeconds(3));
+                        currentTries++;
+                    }
+
+                });
+
+                return sent;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
         public async Task<bool> SendBasicMessage<T>(T message, string queueName)
         {
             if (_channel == null)

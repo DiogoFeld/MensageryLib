@@ -14,7 +14,7 @@ namespace MensageryLib.Services
         public bool BindQueue(string exchange, string queue, string routKey);
         public Task<bool> SendMessage<T>(T message, string exchange, string routKey);
         public Task<bool> SendBasicMessage<T>(T message, string queueName);
-
+        public Task<bool> SendMessagePersistent<T>(T message, string exchange, string routKey, int numberOfTries);
 
     }
 }
