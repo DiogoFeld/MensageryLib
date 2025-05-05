@@ -4,6 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Mensagery.Lib.Rabbit.DCF</PackageId>
+    <Title>MensageryLib-DCF</Title>
+    <Version>1.0.0</Version>
+    <Authors>DiogoFeld</Authors>
+    <Product>MensageryLib</Product>
+    <Description>Library to use RabbitMq Mensagery</Description>
+    <PackageProjectUrl>https://github.com/DiogoFeld/MensageryLib</PackageProjectUrl>
+    <PackageTags>mensagery,libs,RabbitMq</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
