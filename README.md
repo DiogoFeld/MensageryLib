@@ -28,8 +28,7 @@ Este projeto demonstra o uso de uma biblioteca de mensageria baseada em **Rabbit
 
 A biblioteca está disponível via NuGet:
 
-https://www.nuget.org/packages/sua-biblioteca
-
+https://www.nuget.org/packages/Mensagery.Lib.Rabbit.DCF/1.0.0
 ---
 
 ## 🐳 Docker
