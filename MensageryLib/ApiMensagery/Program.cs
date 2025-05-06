@@ -1,4 +1,4 @@
-namespace Api
+namespace ApiMensagery
 {
     public class Program
     {

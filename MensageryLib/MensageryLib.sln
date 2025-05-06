@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MensageryLib", "MensageryLib\MensageryLib.csproj", "{D7F20A75-380F-4ACA-8055-B7194EB8DFEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MensageryLibTests", "MensageryLibTests\MensageryLibTests.csproj", "{11B49311-421E-40D0-8951-37BD7784C977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MensageryLibTests", "MensageryLibTests\MensageryLibTests.csproj", "{11B49311-421E-40D0-8951-37BD7784C977}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMensagery", "ApiMensagery\ApiMensagery.csproj", "{73B1A341-3463-41E6-8672-09ABE9F13BDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{11B49311-421E-40D0-8951-37BD7784C977}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11B49311-421E-40D0-8951-37BD7784C977}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11B49311-421E-40D0-8951-37BD7784C977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B1A341-3463-41E6-8672-09ABE9F13BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B1A341-3463-41E6-8672-09ABE9F13BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B1A341-3463-41E6-8672-09ABE9F13BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B1A341-3463-41E6-8672-09ABE9F13BDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
