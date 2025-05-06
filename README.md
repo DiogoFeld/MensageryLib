@@ -33,4 +33,9 @@ https://www.nuget.org/packages/Mensagery.Lib.Rabbit.DCF/1.0.0
 
 ## 🐳 Docker
 
-Para subir o Docker desta aplicação, utilize:
+Para subir o Docker desta aplicação,dentro da pasta MensageryLib utilize:
+docker-compose up
+isso subirá um container do RabbitMq
+A implementação do projeto ApiMensagery ainda esta em andamento.
+È necessario rodar o programa via IIS Express ou algum outro compilador.
+Caso tenha o RabbitMq instalado, é possivel subir o container da imagem da ApiMensagery, mudando os endereços necessarios.
